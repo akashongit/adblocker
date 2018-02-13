@@ -7,7 +7,10 @@
     "images/blocked.svg"
   ],
   "background": {
-    "scripts": ["blocker.js"]
+    "scripts": [
+      "uimenu.js",
+      "blocker.js"
+    ]
   },
 
   "permissions": [
@@ -19,8 +22,15 @@
     "webNavigation",
     "storage",
     "unlimitedStorage",
-    "notifications"
+    "notifications",
+    "menus"
   ],
+  "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["removeele.js"]
+  }
+],
   "optional_permissions": [
     "history"
   ],
