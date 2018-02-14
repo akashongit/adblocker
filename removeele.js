@@ -3,7 +3,16 @@ var blocked = true;
 var border;
 document.addEventListener("click", printMousePos);
 browser.runtime.onConnect.addListener(function(){ console.log("connected");});
-browser.runtime.onMessage.addListener(function(message){ if(message.msg == true) {console.log("received");blocked = false;}});
+browser.runtime.onMessage.addListener(function(message){ if(message.msg == true) {console.log("received");blocked = false;} else {filter();}});
+
+function filter(){
+  f = prompt("Enter new filter :");
+  console.log("New filter added!!  "+f);
+  store = browser.storage.local.get();
+  store.newfilter = f;
+  store.changefilter = true ;
+  // browser.storage.local.set({store});
+}
 
 console.log("Content script loaded!!");
 function printMousePos(e) {

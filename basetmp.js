@@ -1,8 +1,15 @@
-var blocking = false;
+var dstore = {
+  blocking : true,
+  newfilter : "",
+  changefilter : false,
+  context : ""
+};
+var store ={};
+browser.storage.local.set({dstore});
 let ABPFilterParser = require('abp-filter-parser');
 var fs = require('fs');
 var unique = require('uniq');
-// var bloomf = require('bloom-filter-js');
+var bloomf = require('bloom-filter-js');
 // let easyListTxt = "||ads.example.com^";
 let easyListTxt = fs.readFileSync(__dirname + "/easylist.txt", "utf-8");
 let parsedFilterData = {};
@@ -17,7 +24,7 @@ console.log(parsedFilterData);
 let currentPageDomain = 'slashdot.org';
 function blockUrl(requestDetails)
 {
-  if(blocking == true)
+  if(store.blocking == false)
   {
     return {cancel : false}
   }
@@ -49,7 +56,31 @@ browser.webRequest.onBeforeRequest.addListener(
   {urls: ["<all_urls>"]},
   ["blocking"]
 );
+
+// browser.storage.onChanged.addListener(reboot());
+
+function reboot()
+{
+  store = browser.storage.local.get();
+  if (store.changefilter == true)
+  {
+    store.changefilter = false;
+    var newfil ="";
+    ABPFilterParser.parse(store.newfilter, newfil);
+    parsedFilterData.add(newfil);
+    browser.tabs.reload(tab.id);
+    browser.storage.local.set({store});
+}
+}
+
 // }
+document.addEventListener("DOMContentLoaded",findcontext);
+
+function findcontext ()
+{
+ store = browser.storage.local.set({store});
+ // store.context = ml();
+}
 
 // document.addEventListener("DOMContentLoaded", function(event) {
 //    console.log("DOM fully loaded and parsed");

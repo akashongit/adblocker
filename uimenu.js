@@ -40,12 +40,23 @@ browser.menus.create({
   id: "unblock",
   title: "Unblock Ads",
   contexts: ["all"],
+  type: "radio",
+  checked: false,
   icons: {
     "16": "icons/paint-blue-16.png",
     "32": "icons/paint-blue-32.png"
   }
 }, onCreated);
 
+browser.menus.create({
+  id: "addfilter",
+  title: "Add New Filter",
+  contexts: ["all"],
+  icons: {
+    "16": "icons/paint-blue-16.png",
+    "32": "icons/paint-blue-32.png"
+  }
+}, onCreated);
 
 
 browser.menus.create({
@@ -108,6 +119,9 @@ browser.menus.onClicked.addListener((info, tab) => {
     case "unblock":
       console.log(info.selectionText);
       console.log("Unblocked");
+      store = browser.storage.local.get();
+      store.blocking = !store.blocking;
+      // browser.storage.local.set({store});
       browser.tabs.reload(tab.id);
       break;
     // case "remove-me":
@@ -143,6 +157,10 @@ browser.menus.onClicked.addListener((info, tab) => {
       // item.style.color = "RED";
       break;
 
+case "addfilter":
+    var sending = browser.tabs.sendMessage( tab.id, {msg : false} );
+    // var newf = browser.tabs.sendMessage( tab.id, {msg : true} );
+break;
     // case "open-sidebar":
     //   console.log("Opening my sidebar");
     //   break;
