@@ -154,7 +154,8 @@ browser.menus.onClicked.addListener((info, tab) => {
 
       // console.log("x :" + cursorX + "  y :" + cursorY );
       // item = document.caretPositionFromPoint(cursorX ,cursorY );
-      // item.style.color = "RED";
+      // item
+      .style.color = "RED";
       break;
 
 case "addfilter":
