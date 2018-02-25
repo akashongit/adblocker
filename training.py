@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import nltk
 
-csvfile = pd.read_csv("./datasets/dmoz0409_Arts_finaltest.csv")
+csvfile = pd.read_csv("./dataset/dmoz0409_Arts_finaltest.csv")
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
 
