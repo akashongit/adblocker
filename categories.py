@@ -1,1 +1,1 @@
-ds = ['Arts','Business','Computers','Games','Health','Home','Kids','News','Recreaion','Reference','Science','Shopping']
+ds = ['Arts','Business','Computers','Games','Health','Home','Kids','News','Recreation','Reference','Science','Shopping']
