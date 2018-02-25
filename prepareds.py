@@ -4,10 +4,11 @@ import re
 # from collections import Counter
 # lis =()
 lis = []
+bpath ='./datasets/dmoz0409_Arts_finaltest.csv'
 t = pd.read_csv("./datasets/dmoz0409_Arts_test.csv")
 # print (t.ix[:,1:])
-str_url = (t.ix[:,1:2])
-str_class = (t.ix[:,2:])
+str_url = (t.iloc[:,1:2])
+str_class = (t.iloc[:,2:])
 
 urls = str_url.to_string(index = False)
 # clas = str_class.to_string(index = False)
@@ -16,6 +17,8 @@ cleaned_urls = []
 # print(clas)
 myiter = iter(clas)
 list_urls = urls.split('\n')
+fd = open(bpath, 'w',encoding = "utf-8")
+fd.write("text1,text2,text3,text4,istrue\n")
 for row in list_urls:
     try:
         url_clas = next(myiter)
@@ -43,8 +46,10 @@ for row in list_urls:
         # lis = lis + tuple(fourgrams)
     for grams in fourgrams:
       # nlist = list(grams)
-      url_str = ','.join(grams)
-      print( url_str,',',url_clas[0])
+      url_str =','.join(grams)+','+str(url_clas[0])+'\n'
+      print(url_str,end='')
+      line = url_str
+      fd.write(line)
     # cleaned_urls.append(nrow)
     # row = str(row)
     # print(nrow)
@@ -60,3 +65,4 @@ for row in list_urls:
 # for grams in fourgrams:
 #   print (grams)
 # print (str(fourgrams))
+fd.close()
