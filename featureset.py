@@ -1,6 +1,9 @@
 import pandas as pd
-
-csvfile = pd.read_csv("./datasets/dmoz0409_Arts_finaltest.csv")
+from categories import ds
+import sys
+category = ds[int(sys.argv[1])-1]
+bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+csvfile = pd.read_csv(bpath)
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
 # # myiter = iter(urls)
@@ -19,9 +22,9 @@ featuredict = {}
 for feature in featureset:
     featuredict[feature] = False
 
+print("featureset sucessfully prepared!!!\n")
 
-
-print(featuredict)
+# print(featuredict)
 
 
 

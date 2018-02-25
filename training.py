@@ -3,10 +3,12 @@ from featuredict import features
 import pandas as pd
 import nltk
 import pickle
-# 19 20
-bpath = "./dataset/dmoz0409_Arts_finaltest.csv"[19:22]
+from categories import ds
+import sys
+category = ds[int(sys.argv[1])-1]
+bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
 # print(bpath)
-csvfile = pd.read_csv("./dataset/dmoz0409_Arts_finaltest.csv")
+csvfile = pd.read_csv(bpath)
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
 
@@ -32,15 +34,20 @@ for content in urls[:3000]:
 # # set that we'll test against.
 training_set = fullset
 testing_set = fullset[1900:]
-print("Entered NaiveBayesClassifier")
+print("Training NaiveBayesClassifier...\n")
 classifier = nltk.NaiveBayesClassifier.train(training_set)
-print("learnt!!!")
-print("Classifier accuracy percent:",(nltk.classify.accuracy(classifier, testing_set))*100)
+print("Successfully trained!!!")
+msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
+print(msg)
 
-save_classifier = open("naivebayes"+bpath+".pickle","wb")
+save_classifier = open("./classifiers/naivebayes%s.pickle"%category,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 
-# classifier_f = open("naivebayes.pickle", "rb")
+fd = open("./accuracy.txt",'a',encoding = "utf-8")
+fd.write(category+msg+"\n")
+fd.close()
+# testset [(,,,)]
+# classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
 # classifier = pickle.load(classifier_f)
 # classifier_f.close()

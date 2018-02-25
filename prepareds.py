@@ -1,11 +1,16 @@
 import pandas as pd
 import nltk
 import re
+from categories import ds
+import sys
+from subprocess import call
 # from collections import Counter
 # lis =()
 lis = []
-bpath ='./datasets/dmoz0409_Arts_finaltest.csv'
-t = pd.read_csv("./datasets/dmoz0409_Arts_test.csv")
+arg = int(sys.argv[1])
+category = ds[arg-1]
+bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+t = pd.read_csv("./dataset/unmodified/dmoz0409_%s_test.csv"%category)
 # print (t.ix[:,1:])
 str_url = (t.iloc[:,1:2])
 str_class = (t.iloc[:,2:])
@@ -47,7 +52,7 @@ for row in list_urls:
     for grams in fourgrams:
       # nlist = list(grams)
       url_str =','.join(grams)+','+str(url_clas[0])+'\n'
-      print(url_str,end='')
+      # print(url_str,end='')
       line = url_str
       fd.write(line)
     # cleaned_urls.append(nrow)
@@ -66,3 +71,6 @@ for row in list_urls:
 #   print (grams)
 # print (str(fourgrams))
 fd.close()
+print("\ndataset sucessfully prepared!!!\n")
+call(["python","featureset.py",str(arg)])
+call(["python", "training.py",str(arg)])
