@@ -1,8 +1,11 @@
 from featuredict import features
-import numpy as np
+# import numpy as np
 import pandas as pd
 import nltk
-
+import pickle
+# 19 20
+bpath = "./dataset/dmoz0409_Arts_finaltest.csv"[19:22]
+# print(bpath)
 csvfile = pd.read_csv("./dataset/dmoz0409_Arts_finaltest.csv")
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
@@ -34,6 +37,10 @@ classifier = nltk.NaiveBayesClassifier.train(training_set)
 print("learnt!!!")
 print("Classifier accuracy percent:",(nltk.classify.accuracy(classifier, testing_set))*100)
 
-save_classifier = open("naivebayes.pickle","wb")
+save_classifier = open("naivebayes"+bpath+".pickle","wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
+
+# classifier_f = open("naivebayes.pickle", "rb")
+# classifier = pickle.load(classifier_f)
+# classifier_f.close()
