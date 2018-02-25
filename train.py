@@ -15,7 +15,7 @@ cleaned_urls = []
 list_urls = urls.split('\n')
 for row in list_urls:
     # print(type(row))
-    nrow = re.sub('[\s!@#$+_./:=]&?',' ', row)
+    nrow = re.sub('[\s!@#$+_.-/:=&?~\d]',' ', row)
     # print(nrow)
     # tokens = nltk.word_tokenize(nrow)
     # print(tokens)
