@@ -50,12 +50,15 @@ testing_set = fullset[3000:]
 print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")
-msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
-print(msg)
 
 save_classifier = open("./classifiers/svm.pickle","wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
+
+msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
+print(msg)
+
+
 
 fd = open("./accuracy.txt",'a',encoding = "utf-8")
 fd.write(category+msg+"\n")

@@ -48,6 +48,11 @@ testing_set = fullset[1900:]
 print("Training NaiveBayesClassifier...\n")
 classifier = nltk.NaiveBayesClassifier.train(training_set)
 print("Successfully trained!!!")
+
+save_classifier = open("./classifiers/naivebayes.pickle","wb")
+pickle.dump(classifier, save_classifier)
+save_classifier.close()
+
 msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
 print(msg)
 
