@@ -6,6 +6,9 @@ import pickle
 from categories import ds
 import sys
 from random import randint
+from sklearn.svm import LinearSVC
+
+classif = nltk.classify.scikitlearn.SklearnClassifier(LinearSVC())
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
 category = ds[int(sys.argv[1])-1]
@@ -26,7 +29,7 @@ for content in urls[:3000]:
         url_class[content[3]]=True
     except KeyError:
         # val = randint(0, 3)
-        url_class[padbits[val]] = True:
+        url_class[padbits[val]] = True
 
     res = content[4]
     # if content[4] == -1:
@@ -41,14 +44,14 @@ for content in urls[:3000]:
 #
 # # set that we'll test against.
 training_set = fullset
-testing_set = fullset[1900:]
-print("Training NaiveBayesClassifier...\n")
-classifier = nltk.NaiveBayesClassifier.train(training_set)
+testing_set = fullset[100:]
+print("Training SVM...\n")
+classifier = classif.train(training_set)
 print("Successfully trained!!!")
 msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
 print(msg)
 
-save_classifier = open("./classifiers/naivebayes%s.pickle"%category,"wb")
+save_classifier = open("./classifiers/svm%s.pickle"%category,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 
