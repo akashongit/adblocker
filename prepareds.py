@@ -2,35 +2,43 @@ import pandas as pd
 import nltk
 import re
 from categories import ds
-import sys
+# import sys
 from subprocess import call
 # from collections import Counter
 # lis =()
 lis = []
-arg = int(sys.argv[1])
-category = ds[arg-1]
-bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
-t = pd.read_csv("./dataset/unmodified/dmoz0409_%s_test.csv"%category)
+# arg = int(sys.argv[1])
+# category = ds[arg-1]
+# bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+# df = pd.read_csv("./dataset/unmodified/dmoz0409_%s_test.csv"%category)
+bpath ='./dataset/dmoz0409_finaltest.csv'
+df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
 # print (t.ix[:,1:])
-str_url = (t.iloc[:,1:2])
-str_class = (t.iloc[:,2:])
+str_url = (df.iloc[:,1:2])
+str_class = (df.iloc[:,2:])
+
+# str_url = (df.iloc[:,0:1])
+# str_class = (df.iloc[:,1:])
 
 urls = str_url.to_string(index = False)
 # clas = str_class.to_string(index = False)
+# print(urls)
 clas = str_class.values.tolist()
 cleaned_urls = []
 # print(clas)
 myiter = iter(clas)
 list_urls = urls.split('\n')
 fd = open(bpath, 'w',encoding = "utf-8")
-fd.write("text1,text2,text3,text4,istrue\n")
+fd.write("text1,text2,text3,text4,class\n")
 for row in list_urls:
     try:
         url_clas = next(myiter)
+        # print(row)
     except Exception as e:
         pass
     # print(type(row))
-    nrow = re.sub('[\s!@#$+_.\-/:=&?~\d]',' ', row)
+    nrow = re.sub("[\s!@#$+_.\-/:=&?~\d]",' ', row)
+    # new_row = re.sub("[\]\[\']",'', nrow)
     # printpass)
     # tokens = nltk.word_tokenize(nrow)
     # print(tokens)
@@ -38,6 +46,7 @@ for row in list_urls:
     # for fourgram, freq in fourgrams.ngram_fd.items():
         # print (fourgram)
     n = 4
+    # fourgrams = nltk.ngrams(new_row.split(), n)
     fourgrams = nltk.ngrams(nrow.split(), n)
     # forgrams = filter(None,list(fourgrams))
     # forgrams = [list(x) for x in fourgrams]
@@ -72,5 +81,5 @@ for row in list_urls:
 # print (str(fourgrams))
 fd.close()
 print("\ndataset sucessfully prepared!!!\n")
-call(["python","featureset.py",str(arg)])
-call(["python", "training.py",str(arg)])
+# call(["python","featureset.py",str(arg)])
+# call(["python", "training.py",str(arg)])

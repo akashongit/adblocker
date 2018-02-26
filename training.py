@@ -8,8 +8,9 @@ import sys
 from random import randint
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
-category = ds[int(sys.argv[1])-1]
-bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+# category = ds[int(sys.argv[1])-1]
+# bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+bpath ='./dataset/dmoz0409_finaltest.csv'
 # print(bpath)
 csvfile = pd.read_csv(bpath)
 # # str_url = (t.iloc[:,1:]
