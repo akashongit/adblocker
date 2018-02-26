@@ -25,8 +25,8 @@ for content in urls[:3000]:
         url_class[content[2]]=True
         url_class[content[3]]=True
     except KeyError:
-        # val = randint(0, 3)
-        url_class[padbits[val]] = True:
+        val = randint(0, 3)
+        url_class[padbits[val]] = True
 
     res = content[4]
     # if content[4] == -1:
