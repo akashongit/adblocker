@@ -28,7 +28,7 @@ fd.close()
 bpath ='./dataset/unmodified/dmoz0409_ds_test.csv'
 df = pd.read_csv(bpath)
 new_df = df.sample(frac=1)
-new_df.to_csv('./dataset/unmodified/dmoz0409_test.csv',encoding='utf-8')
+new_df.to_csv('./dataset/unmodified/dmoz0409_test.csv',encoding='utf-8',index=False)
 # fd = open('./dataset/unmodified/dmoz0409_test.csv', 'w',encoding = "utf-8")
 # str_url = (new_df.iloc[:,0:1]).values.tolist()
 # str_class = (new_df.iloc[:,1:]).values.tolist()
