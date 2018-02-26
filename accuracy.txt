@@ -11,3 +11,4 @@ Science Classifier accuracy percent: 95.27272727272728
 Shopping Classifier accuracy percent: 93.9090909090909
 Recreation Classifier accuracy percent: 95.0909090909091
 Arts Classifier accuracy percent: 98.44444444444444
+Health Classifier accuracy percent: 0
