@@ -43,7 +43,7 @@ for content in urls[:3000]:
 # # set that we'll test against.
 training_set = fullset
 # print(fullset)
-testing_set = fullset[1900:]
+testing_set = fullset[100:]
 # print(testing_set)
 print("Training NaiveBayesClassifier...\n")
 classifier = nltk.NaiveBayesClassifier.train(training_set)
