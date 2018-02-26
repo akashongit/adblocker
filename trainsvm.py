@@ -21,7 +21,7 @@ urls = csvfile.values.tolist()
 
 fullset =[]
 
-for content in urls[:3000]:
+for content in urls:
     url_class = features.copy()
     try:
         url_class[content[0]]=True

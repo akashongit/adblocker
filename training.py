@@ -18,7 +18,7 @@ urls = csvfile.values.tolist()
 
 fullset =[]
 
-for content in urls[:3000]:
+for content in urls:
     url_class = features.copy()
     try:
         url_class[content[0]]=True
@@ -53,8 +53,8 @@ save_classifier = open("./classifiers/naivebayes.pickle","wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 
-msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
-print(msg)
+# msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
+# print(msg)
 
 save_classifier = open("./classifiers/naivebayes.pickle","wb")
 pickle.dump(classifier, save_classifier)
