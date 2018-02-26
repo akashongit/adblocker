@@ -45,7 +45,7 @@ for content in urls[:3000]:
 #
 # # set that we'll test against.
 training_set = fullset
-testing_set = fullset[3000:]
+testing_set = fullset[100:]
 # print(testing_set)
 print("Training SVM...\n")
 classifier = classif.train(training_set)
