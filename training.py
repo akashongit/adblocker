@@ -42,21 +42,23 @@ for content in urls[:100]:
 #
 # # set that we'll test against.
 training_set = fullset
+# print(fullset)
 testing_set = fullset[1900:]
-print("Training NaiveBayesClassifier...\n")
-classifier = nltk.NaiveBayesClassifier.train(training_set)
-print("Successfully trained!!!")
-msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
-print(msg)
-
-save_classifier = open("./classifiers/naivebayes.pickle","wb")
-pickle.dump(classifier, save_classifier)
-save_classifier.close()
-
-fd = open("./accuracy.txt",'a',encoding = "utf-8")
-fd.write(category+msg+"\n")
-fd.close()
-# testset [(,,,)]
-# classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
-# classifier = pickle.load(classifier_f)
-# classifier_f.close()
+print(testing_set)
+# print("Training NaiveBayesClassifier...\n")
+# classifier = nltk.NaiveBayesClassifier.train(training_set)
+# print("Successfully trained!!!")
+# msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
+# print(msg)
+#
+# save_classifier = open("./classifiers/naivebayes.pickle","wb")
+# pickle.dump(classifier, save_classifier)
+# save_classifier.close()
+#
+# fd = open("./accuracy.txt",'a',encoding = "utf-8")
+# fd.write(category+msg+"\n")
+# fd.close()
+# # testset [(,,,)]
+# # classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
+# # classifier = pickle.load(classifier_f)
+# # classifier_f.close()
