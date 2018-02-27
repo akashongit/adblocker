@@ -8,7 +8,7 @@ from categories import ds
 from random import randint
 from sklearn.svm import LinearSVC
 
-number = 1
+# number = 1
 try:
     number = sys.argv[1]
 except Exception as e:
@@ -56,7 +56,7 @@ testing_set = fullset[100:]
 print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")
-
+print(" saved to ./classifiers/svm%s.pickle"%number)
 save_classifier = open("./classifiers/svm%s.pickle"%number,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
