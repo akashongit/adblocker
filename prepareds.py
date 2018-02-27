@@ -7,6 +7,7 @@ from subprocess import call
 # from collections import Counter
 # lis =()
 lis = []
+a = []
 # arg = int(sys.argv[1])
 # category = ds[arg-1]
 # bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
@@ -14,11 +15,11 @@ lis = []
 bpath ='./dataset/dmoz0409_finaltest.csv'
 df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
 # print (t.ix[:,1:])
-str_url = (df.iloc[:,1:2])
-str_class = (df.iloc[:,2:])
+# str_url = (df.iloc[:,1:2])
+# str_class = (df.iloc[:,2:])
 
-# str_url = (df.iloc[:,0:1])
-# str_class = (df.iloc[:,1:])
+str_url = (df.iloc[:,0:1])
+str_class = (df.iloc[0:,1:])
 
 urls = str_url.to_string(index = False)
 # clas = str_class.to_string(index = False)
@@ -26,6 +27,7 @@ urls = str_url.to_string(index = False)
 clas = str_class.values.tolist()
 cleaned_urls = []
 # print(clas)
+clas.insert(0,'0')
 myiter = iter(clas)
 list_urls = urls.split('\n')
 fd = open(bpath, 'w',encoding = "utf-8")
@@ -33,6 +35,7 @@ fd.write("text1,text2,text3,text4,class\n")
 for row in list_urls:
     try:
         url_clas = next(myiter)
+        a.append(url_clas)
         # print(row)
     except Exception as e:
         pass
@@ -61,7 +64,8 @@ for row in list_urls:
     for grams in fourgrams:
       # nlist = list(grams)
       url_str =','.join(grams)+','+str(url_clas[0])+'\n'
-      # print(url_str,end='')
+      # print(i)
+      # print(clas,end='')
       line = url_str
       fd.write(line)
     # cleaned_urls.append(nrow)
@@ -83,3 +87,4 @@ fd.close()
 print("\ndataset sucessfully prepared!!!\n")
 # call(["python","featureset.py",str(arg)])
 # call(["python", "training.py",str(arg)])
+# print(a[::-1])
