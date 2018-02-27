@@ -6,6 +6,12 @@ import pickle
 from categories import ds
 import sys
 from random import randint
+number = 1
+try:
+    number = sys.argv[1]
+except Exception as e:
+    number = 1
+
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
 # category = ds[int(sys.argv[1])-1]
@@ -49,7 +55,7 @@ print("Training NaiveBayesClassifier...\n")
 classifier = nltk.NaiveBayesClassifier.train(training_set)
 print("Successfully trained!!!")
 
-save_classifier = open("./classifiers/naivebayes.pickle","wb")
+save_classifier = open("./classifiers/naivebayes%s.pickle"%number,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 

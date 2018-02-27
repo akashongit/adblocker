@@ -8,6 +8,12 @@ from categories import ds
 from random import randint
 from sklearn.svm import LinearSVC
 
+number = 1
+try:
+    number = sys.argv[1]
+except Exception as e:
+    number = 1
+
 classif = nltk.classify.scikitlearn.SklearnClassifier(LinearSVC())
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
@@ -51,7 +57,7 @@ print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")
 
-save_classifier = open("./classifiers/svm.pickle","wb")
+save_classifier = open("./classifiers/svm%s.pickle"%number,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 
