@@ -7,13 +7,14 @@ from categories import ds
 # import sys
 from random import randint
 from sklearn.svm import LinearSVC
-
+import sys
+ 
 # number = 1
 try:
     number = sys.argv[1]
 except Exception as e:
-    number = 1
-
+    number = 10
+print(number)
 classif = nltk.classify.scikitlearn.SklearnClassifier(LinearSVC())
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
