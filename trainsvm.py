@@ -61,14 +61,14 @@ save_classifier = open("./classifiers/svm%s.pickle"%number,"wb")
 pickle.dump(classifier, save_classifier)
 save_classifier.close()
 
-msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
-print(msg)
-
-
-
-fd = open("./accuracy.txt",'a',encoding = "utf-8")
-fd.write(category+msg+"\n")
-fd.close()
+# msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
+# print(msg)
+#
+#
+#
+# fd = open("./accuracy.txt",'a',encoding = "utf-8")
+# fd.write(category+msg+"\n")
+# fd.close()
 # testset [(,,,)]
 # classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
 # classifier = pickle.load(classifier_f)
