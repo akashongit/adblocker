@@ -3,6 +3,12 @@
 Called when the item has been created, or when creation failed due to an error.
 We'll just log success/failure here.
 */
+
+// let initialState = browser.storage.local.get("blocking");
+// let checkedState = initialState.then(function(result) {
+// return result["blocking"];
+// });
+
 function onCreated() {
   if (browser.runtime.lastError) {
     console.log(`Error: ${browser.runtime.lastError}`);
@@ -30,22 +36,20 @@ function onError(error) {
 /*
 Create all the context menu items.
 */
-browser.menus.create({
-  id: "log-selection",
-  title: browser.i18n.getMessage("menuItemSelectionLogger"),
-  contexts: ["selection"]
-}, onCreated);
+
+
+let checkedState = false;
 
 browser.menus.create({
   id: "unblock",
   title: "Unblock Ads",
   contexts: ["all"],
   type: "radio",
-  checked: false,
-  icons: {
-    "16": "icons/paint-blue-16.png",
-    "32": "icons/paint-blue-32.png"
-  }
+    // icons: {
+    // "16": "icons/paint-blue-16.png",
+    // "32": "icons/paint-blue-32.png"
+  // },
+  checked: checkedState
 }, onCreated);
 
 browser.menus.create({
@@ -100,12 +104,12 @@ property into the event listener.
 function updateCheckUncheck() {
   checkedState = !checkedState;
   if (checkedState) {
-    browser.menus.update("check-uncheck", {
-      title: browser.i18n.getMessage("menuItemUncheckMe"),
+    browser.menus.update("unblock", {
+      checked: true,
     });
   } else {
-    browser.menus.update("check-uncheck", {
-      title: browser.i18n.getMessage("menuItemCheckMe"),
+    browser.menus.update("unblock", {
+      checked: false,
     });
   }
 }
@@ -117,11 +121,29 @@ ID of the menu item that was clicked.
 browser.menus.onClicked.addListener((info, tab) => {
   switch (info.menuItemId) {
     case "unblock":
-      console.log(info.selectionText);
-      console.log("Unblocked");
-      store = browser.storage.local.get();
-      store.blocking = !store.blocking;
-      // browser.storage.local.set({store});
+      // console.log(info.selectionText);
+      // console.log("Unblocked option");
+      updateCheckUncheck();
+      let data = browser.storage.local.get("blocking");
+      let blocked = data.then(function(result) {
+   console.log(!result["blocking"]);
+   return result["blocking"];
+ });
+
+//  store = browser.storage.local.get();
+//  blocked = store.then(function(result) {
+// console.log(result);
+// return result;
+// });
+ // store = Promise.resolve()
+      // console.log(store.value);
+     // console.log(Object.values(store));
+      // store["blocking"] = !store["blocking"];
+      // store.then(function(result) {
+   // console.log(result);
+ // });
+      console.log("menu status -> " + checkedState);
+      browser.storage.local.set({'blocking':checkedState});
       browser.tabs.reload(tab.id);
       break;
     // case "remove-me":
@@ -155,7 +177,7 @@ browser.menus.onClicked.addListener((info, tab) => {
       // console.log("x :" + cursorX + "  y :" + cursorY );
       // item = document.caretPositionFromPoint(cursorX ,cursorY );
       // item
-      .style.color = "RED";
+      // .style.color = "RED";
       break;
 
 case "addfilter":

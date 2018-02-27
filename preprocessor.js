@@ -35,11 +35,11 @@ function logCookies(cookies) {
 //   }
 }
 
-function responseDetails(responseDetails){
-  var getCookies = browser.cookies.getAll({});
-  console.log("cookies ");
-  getCookies.then(logCookies);
-}
+// function responseDetails(responseDetails){
+//   var getCookies = browser.cookies.getAll({});
+//   console.log("cookies ");
+//   getCookies.then(logCookies);
+// }
 
 // browser.tabs.query({}).then(tabs => {
 //     for (tab of tabs) {
@@ -60,14 +60,19 @@ browser.webRequest.onBeforeRequest.addListener(
   ["blocking"]
 );
 
-browser.webRequest.onBeforeSendHeaders.addListener(
-  rewriteUserAgentHeader,
-  {urls: ["<all_urls>"]},
-  ["blocking", "requestHeaders"]
-);
+// browser.webRequest.onBeforeSendHeaders.addListener(
+//   rewriteUserAgentHeader,
+//   {urls: ["<all_urls>"]},
+//   ["blocking", "requestHeaders"]
+// );
+// browser.webRequest.onBeforeSendHeaders.addListener(
+//   responseDetails,
+//   {urls: ["<all_urls>"]},
+//   ["blocking", "requestHeaders"]
+// );
 
-browser.webRequest.onResponseStarted.addListener(
-responseDetails,
-{urls: ["<all_urls>"]},
-{type: ["html"]}
-);
+// browser.webRequest.onResponseStarted.addListener(
+// responseDetails,
+// {urls: ["<all_urls>"]},
+// {type: ["html"]}
+// );

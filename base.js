@@ -1,16 +1,17 @@
-var dstore = {
-  blocking : true,
+let dstore = {
+  blocked : true,
   newfilter : "",
   changefilter : false,
   context : ""
 };
-var store ={};
-browser.storage.local.set({dstore});
+let blocking = {"blocking":false};
+browser.storage.local.set(dstore);
+browser.storage.local.set(blocking);
 let ABPFilterParser = require('abp-filter-parser');
 var fs = require('fs');
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
-// let easyListTxt = "||ads.example.com^";
+// let easyListTxt = "||www.facebook.com^";
 let easyListTxt = fs.readFileSync(__dirname + "/easylist.txt", "utf-8");
 let parsedFilterData = {};
 ABPFilterParser.parse(easyListTxt, parsedFilterData);
@@ -24,8 +25,22 @@ console.log(parsedFilterData);
 let currentPageDomain = 'slashdot.org';
 function blockUrl(requestDetails)
 {
-  if(store.blocking == false)
+  // if(requestDetails.type.toLowerCase()=="main_frame")
+  // {
+  //   console.log("\ndocument");
+  //
+  // }
+
+  // unblock all ads
+
+  store = browser.storage.local.get("blocking");
+  blocked = store.then(function(result) {
+console.log("Unblock all ads value :"+result["blocking"]);
+return result["blocking"];
+});
+  if(blocked == true)
   {
+    console.log("Url is unblocked");
     return {cancel : false}
   }
   // let currentPageDomain = requestDetails.url;
@@ -34,7 +49,8 @@ function blockUrl(requestDetails)
 if (ABPFilterParser.matches(parsedFilterData, requestDetails.url, {
       domain: currentPageDomain,
       elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
-    })) {
+    }))
+    {
   console.log("Loading: " + requestDetails.url);
   console.log('URL/Resource blocked!');
   return {redirectUrl : browser.extension.getURL("images/blocked.svg")}
@@ -74,13 +90,26 @@ function reboot()
 }
 
 // }
-document.addEventListener("DOMContentLoaded",findcontext);
+browser.webRequest.onBeforeRequest.addListener(
+  findcontext,
+  {urls: ["<all_urls>"], type: "main_frame"},
+);
 
-function findcontext ()
-{
- store = browser.storage.local.set({store});
- // store.context = ml();
-}
+// function findcontext (requestDetails){
+// svm_call = XMLHttpRequest();
+// svm_call.onreadystatechange = function() {
+//   if (svm_call.readyState === 4) {
+//     console.log(svm_call.response); //Outputs a DOMString by default
+//   }
+// }
+//var formData = new FormData();
+// formData.append('url', requestDetails.url);
+// svm_call.open('POST', url, false);
+// svm_call.send({"url":requestDetails.url});
+
+//  store = browser.storage.local.set({store});
+//  // store.context = ml()
+// }
 
 // document.addEventListener("DOMContentLoaded", function(event) {
 //    console.log("DOM fully loaded and parsed");
