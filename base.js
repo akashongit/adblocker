@@ -97,6 +97,7 @@ browser.webRequest.onBeforeRequest.addListener(
 
 // function findcontext (requestDetails){
 // svm_call = XMLHttpRequest();
+// url = "http://127.0.0.1/findtext"
 // svm_call.onreadystatechange = function() {
 //   if (svm_call.readyState === 4) {
 //     console.log(svm_call.response); //Outputs a DOMString by default
