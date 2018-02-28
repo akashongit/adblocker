@@ -27,8 +27,33 @@ csvfile = pd.read_csv(bpath)
 urls = csvfile.values.tolist()
 
 fullset =[]
+updateFullset = []
+for content in urls[:20000]:
+    url_class = features.copy()
+    try:
+        url_class[content[0]]=True
+        url_class[content[1]]=True
+        url_class[content[2]]=True
+        url_class[content[3]]=True
+    except KeyError:
+        # val = randint(0, 3)
+        url_class[padbits[val]] = True
 
-for content in urls[:2000]:
+    res = content[4]
+    # if content[4] == -1:
+        # res = "neg"
+    # else :
+        # res = "pos"
+    fullset.append((url_class,res))
+print(len(fullset))
+
+training_set = fullset
+print("Training SVM")
+classifier = classif.train(training_set)
+
+training_set[:]=[]
+
+for content in  urls[20000:35016]:
     url_class = features.copy()
     try:
         url_class[content[0]]=True
@@ -50,12 +75,15 @@ for content in urls[:2000]:
 # print(url_class)
 # training_set = urlclass[:1900]
 #
+print(len(fullset))
 # # set that we'll test against.
 training_set = fullset
-testing_set = fullset[100:]
+#testing_set = fullset[100:]
 # print(testing_set)
-print("Training SVM...\n")
-classifier = classif.train(training_set)
+print("retraining SVM...\n")
+#classifier = classif.train(training_set)
+
+classifier.update(training_set)
 print("Successfully trained!!!")
 print(" saved to ./classifiers/svm%s.pickle"%number)
 save_classifier = open("./classifiers/svm%s.pickle"%number,"wb")
