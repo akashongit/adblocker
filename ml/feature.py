@@ -8,10 +8,10 @@ df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
 # bpath ='./features.txt'
 
 features = set()
-features.add('_paddingbit1')
-features.add('_paddingbit2')
-features.add('_paddingbit3')
-features.add('_paddingbit4')
+# features.add('_paddingbit1')
+# features.add('_paddingbit2')
+# features.add('_paddingbit3')
+# features.add('_paddingbit4')
 # for content in urls:
 #     features.add(content[0])
 #     features.add(content[1])
@@ -54,10 +54,14 @@ for row in list_urls:
 featureset = list(features)
 # print(featureset)
 # print("hotstar" in featureset)
-
-fd = open("./featuredict.py",'w',encoding = "utf-8")
-fd.write("features = {")
+print("No of words : ",len(featureset))
+fd = open("./featuredict.py",'w', encoding="utf-8")
+fd.write("features = { \"_paddingbit1\":False,\"_paddingbit2\":False,\"_paddingbit3\":False,\"_paddingbit4\":False,")
 for line in featureset:
-    fd.write(" '%s': False,"%line)
-fd.write("}")
+    # if("''" in list(line)):
+        # print(line)
+    con = '\"%s\" : False,'%line
+    # print(con)
+    fd.write(con)
+fd.write("\n}")
 fd.close()
