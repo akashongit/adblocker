@@ -3,20 +3,17 @@ import nltk
 from featuredict import features
 import sys
 import re
-# from random import randint
-# import numpy as np
+from random import randint
+import numpy as np
 from categories import ds
-from collections import Counter
-
-final_context = []
 
 # def predict(url,category):
 def predictcontext(url):
     # classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/svm%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/naivebayes.pickle", "rb")
-    # classifier_f = open("./classifiers/svm.pickle", "rb")
-    # classifier = pickle.load(classifier_f,encoding='latin1')
+    classifier_f = open("./classifiers/svm.pickle", "rb")
+    classifier = pickle.load(classifier_f,encoding='latin1')
 
     # url = sys.argv[1]
     featdict = {}
@@ -78,23 +75,11 @@ def predictcontext(url):
         testdata.append((url_feature))
         # testdat;;a = [(url_feature,None)]
         # print(testdata)
-        for val in range(11):
-            classifier_f = open("./classifiers/svm%s.pickle"%val, "rb")
-            # print("svm%s classifier loaded"%val)
-            classifier = pickle.load(classifier_f,encoding='latin1')
-            # result = classifier.classify(testdata[0])
-            result = classifier.classify(testdata[0])
-            final_context.append(result)
-            # print(result)
-            print("Context : ",ds[result])
-            classifier_f.close()
+        result = classifier.classify(testdata[0])
+        print("Context :",ds[result])
+        classifier_f.close()
         # return str(ds[result])
-    data = Counter(final_context)
-    print("Output")
-    context = data.most_common(1)[0][0]
-    # print(context)
-    print("The context for the url %s is %s"%(url,ds[context]))
-    return ds[context]
+
 # predictcontext(sys.argv[1])
 predictcontext(sys.argv[1])
 # predictcontext(sys.argv[1],sys.argv[2])
