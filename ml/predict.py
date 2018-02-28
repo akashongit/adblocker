@@ -20,10 +20,10 @@ def predictcontext(url):
 
     # print(url)
     featureset = re.sub('[\s!@#$+_.\-/:=&?~\d]',' ', url)
-    print(featureset)
+    # print(featureset)
     templist = featureset.split(" ")
     templist = list(filter(None, templist))
-    print(templist)
+    # print(templist)
     length = len(templist)
     if(length>3):
         n = 4
@@ -31,7 +31,7 @@ def predictcontext(url):
 
     else:
         n = length
-        print("No of words %s"%n)
+        # print("No of words %s"%n)
 
     grams = nltk.ngrams(featureset.split(), n)
     # print(fourgrams)
@@ -40,7 +40,7 @@ def predictcontext(url):
     for gram in grams:
         count = count+1
         url_feature = features.copy()
-        print("\ncontext %s"%count)
+        # print("\ncontext %s"%count)
         for val in range(n):
             if( gram[val] in url_feature ):
                 url_feature[gram[val]]=True
@@ -76,7 +76,7 @@ def predictcontext(url):
         # testdat;;a = [(url_feature,None)]
         # print(testdata)
         result = classifier.classify(testdata[0])
-        print(ds[result])
+        print("Context :",ds[result])
         classifier_f.close()
         # return str(ds[result])
 
