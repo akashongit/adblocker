@@ -1,15 +1,51 @@
-let dstore = {"newfilter" : ""};
+// let dstore = {
+//   blocked : true,
+//   newfilter : "",
+//   changefilter : false,
+//   context : ""
+// };
+let newfilter = {"newfilter" : ""};
+let changed = {"changed":false}
 let blocking = {"blocking":false};
-browser.storage.local.set(dstore);
+browser.storage.local.set(newfilter);
 browser.storage.local.set(blocking);
+browser.storage.local.set(changed);
 let ABPFilterParser = require('abp-filter-parser');
 var fs = require('fs');
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
+
+let context = {
+media:"",
+entertainment:"",
+games:"",
+shopping:"",
+education:"",
+adult:"",
+economy:"",
+health:"",
+kids:"",
+sports:""
+};
+
+var conIterator = 0;
+let parsedContextData = [];
+var temp;
+
 // let easyListTxt = "||www.facebook.com^";
 let easyListTxt = fs.readFileSync(__dirname + "/easylist.txt", "utf-8");
+let userFilter = fs.readFileSync(__dirname + "/userfilter.txt", "utf-8");
 let parsedFilterData = {};
+let parseduserFilterData = {};
+
+// for(conIterator=0;conIterator<10;conIterator++){
+//   ABPFilterParser.parse(userFilter, temp);
+//   parsedContextData.push(temp);
+// }
+
+
 ABPFilterParser.parse(easyListTxt, parsedFilterData);
+ABPFilterParser.parse(userFilter, parseduserFilterData);
 console.log(parsedFilterData);
 // let urlToCheck = 'http://static.tumblr.com/dhqhfum/WgAn39721/cfh_header_banner_v2.jpg';
 
@@ -40,11 +76,16 @@ return result["blocking"];
   }
   // let currentPageDomain = requestDetails.url;
 // ABPFilterParser.parse(someOtherListOfFilters, parsedFilterData);
-
-if (ABPFilterParser.matches(parsedFilterData, requestDetails.url, {
+matchEasyList = ABPFilterParser.matches(parsedFilterData, requestDetails.url, {
       domain: currentPageDomain,
       elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
-    }))
+    });
+matchuserFilter = ABPFilterParser.matches(parseduserFilterData, requestDetails.url, {
+      domain: currentPageDomain,
+      elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
+    });
+// if (matchEasyList)
+if (matchEasyList || matchuserFilter)
     {
   console.log("Loading: " + requestDetails.url);
   console.log('URL/Resource blocked!');
@@ -68,27 +109,53 @@ browser.webRequest.onBeforeRequest.addListener(
   ["blocking"]
 );
 
-// browser.storage.onChanged.addListener(reboot());
+// browser.storage.onChanged.addListener(reboot);
+browser.runtime.onMessage.addListener(reboot)
 
-function reboot()
+function reboot(message)
 {
-  store = browser.storage.local.get();
-  if (store.changefilter == true)
+  //access newfilter
+  // let fdata = browser.storage.local.get("newfilter");
+  // let cdata = browser.storage.local.get("changed");
+  // let uFilter = fdata.then(function(result) {
+  // console.log("new filter "+result["newfilter"]+" accepted!!!");
+  // return result["newfilter"];
+  // });
+  // console.log(uFilter);
+//access changed
+ // let isChanged = cdata.then(function(result) {
+ //  console.log("filter added in blocker "+result["changed"]);
+ //  return result["changed"];
+ //  });
+  // console.log("isChanged "+isChanged);
+  if (message.changed)
   {
-    store.changefilter = false;
-    var newfil ="";
-    ABPFilterParser.parse(store.newfilter, newfil);
-    parsedFilterData.add(newfil);
-    browser.tabs.reload(tab.id);
-    browser.storage.local.set({store});
-}
+    // browser.storage.local.set({'newfilter':''});
+    // browser.storage.local.set({'changed':false});
+    console.log(" Filter change analysed!!!");
+    console.log("new filter "+message.filter+" accepted ");
+    //appending to file
+//     fs.appendFile(__dirname + "/userfilter.txt", message.filter , function (err) {
+//       if (err) throw err;
+//       console.log('Saved!');
+// });
+//     store.changefilter = false;
+//     var newfil ="";
+//     ABPFilterParser.parse(store.newfilter, newfil);
+//     parsedFilterData.add(newfil);
+//     browser.tabs.reload(tab.id);
+//     browser.storage.local.set({store});
+// }
+
+  }
+
 }
 
-// }
-browser.webRequest.onBeforeRequest.addListener(
-  findcontext,
-  {urls: ["<all_urls>"], type: "main_frame"},
-);
+//listener for context
+// browser.webRequest.onBeforeRequest.addListener(
+//   findcontext,
+//   {urls: ["<all_urls>"], type: "main_frame"},
+// );
 
 // function findcontext (requestDetails){
 // svm_call = XMLHttpRequest();
