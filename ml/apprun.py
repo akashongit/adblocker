@@ -1,3 +1,4 @@
+# flask server
 from predict import predictcontext
 import os
 from random import *

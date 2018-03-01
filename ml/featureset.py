@@ -1,3 +1,4 @@
+# depreciated populate featuredict.py
 import pandas as pd
 from categories import ds
 import sys

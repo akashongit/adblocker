@@ -1,3 +1,4 @@
+#  train svm with 20k dataset
 from featuredict import features
 # import numpy as np
 import pandas as pd

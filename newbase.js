@@ -4,6 +4,8 @@
 //   changefilter : false,
 //   context : ""
 // };
+unblocked = false
+
 let newfilter = {"newfilter" : ""};
 let changed = {"changed":false}
 let blocking = {"blocking":false};
@@ -15,7 +17,7 @@ var IDBFiles = require('idb-file-storage')
 var fs = require('fs');
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
-
+let userFilter = "";
 let context = {
 media:"",
 entertainment:"",
@@ -33,9 +35,9 @@ var conIterator = 0;
 let parsedContextData = [];
 var temp;
 
-// let easyListTxt = "||www.facebook.com^";
+// let easyListTxt = "||ads.example.com^";
 let easyListTxt = fs.readFileSync(__dirname + "/easylist.txt", "utf-8");
-let userFilter = fs.readFileSync(__dirname + "/userfilter.txt", "utf-8");
+// let userFilter = fs.readFileSync(__dirname + "/userfilter.txt", "utf-8");
 let parsedFilterData = {};
 let parseduserFilterData = {};
 
@@ -47,7 +49,7 @@ let parseduserFilterData = {};
 
 ABPFilterParser.parse(easyListTxt, parsedFilterData);
 ABPFilterParser.parse(userFilter, parseduserFilterData);
-console.log(parsedFilterData);
+// console.log(parsedFilterData);
 // let urlToCheck = 'http://static.tumblr.com/dhqhfum/WgAn39721/cfh_header_banner_v2.jpg';
 
 // let elementHidingRules = fs.readFileSync(__dirname + "/element.txt", "utf-8");
@@ -70,7 +72,7 @@ function blockUrl(requestDetails)
 console.log("Unblock all ads value :"+result["blocking"]);
 return result["blocking"];
 });
-  if(blocked == true)
+  if(unblocked == true)
   {
     console.log("Url is unblocked");
     return {cancel : false}
@@ -85,6 +87,7 @@ matchuserFilter = ABPFilterParser.matches(parseduserFilterData, requestDetails.u
       domain: currentPageDomain,
       elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
     });
+    console.log("EasyList :"+matchEasyList+"\nUser Filter :"+matchuserFilter);
 // if (matchEasyList)
 if (matchEasyList || matchuserFilter)
     {
@@ -113,6 +116,11 @@ browser.webRequest.onBeforeRequest.addListener(
 // browser.storage.onChanged.addListener(reboot);
 browser.runtime.onMessage.addListener(reboot)
 
+function get_domain_from_url(url) {
+var sourceString = url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+return sourceString;
+}
+
 function reboot(message)
 {
   //access newfilter
@@ -134,9 +142,14 @@ function reboot(message)
     // browser.storage.local.set({'newfilter':''});
     // browser.storage.local.set({'changed':false});
     console.log(" Filter change analysed!!!");
-    console.log("new filter "+message.filter+" accepted ");
-    userFilter
-    console.log(userFilter+"||"+message.filter+"^\n");
+
+    var parsedUrl = get_domain_from_url(message.filter)
+    console.log("new filter "+parsedUrl+" accepted ");
+    filterRule = "||"+parsedUrl+"^";
+    // console.log();
+    userFilter = userFilter+filterRule+"\n";
+    console.log("content in user filter "+userFilter);
+    // console.log(userFilter+"||"+message.filter+"^\n");
     ABPFilterParser.parse(userFilter, parseduserFilterData);
     // browser.tabs.reload(tab.id);
 

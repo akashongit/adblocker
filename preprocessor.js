@@ -1,5 +1,7 @@
 
 
+
+
 function redirect(requestDetails) {
   // console.log("opening  " + requestDetails.url);
   // console.log("type  " + requestDetails.type);
@@ -76,3 +78,40 @@ browser.webRequest.onBeforeRequest.addListener(
 // {urls: ["<all_urls>"]},
 // {type: ["html"]}
 // );
+function onSet(result) {
+  if (result) {
+    console.log("success");
+  } else {
+    console.log("failure");
+  }
+}
+var trackSetting = browser.privacy.websites.trackingProtectionMode.set({
+        value: "always"
+      });
+
+var cookieSetting = browser.privacy.websites.cookieConfig.set({
+        behavior: "reject_third_party",
+        nonPersistentCookies: false
+      });
+
+var fingerprintingSetting = browser.privacy.websites.resistFingerprinting.set({
+        value: true
+      });
+
+// browser.browserAction.onClicked.addListener(() => {
+//
+//   var getting = browser.privacy.websites.hyperlinkAuditingEnabled.get({});
+//   getting.then((got) => {
+//     console.log(got.value);
+//     if ((got.levelOfControl === "controlled_by_this_extension") ||
+//         (got.levelOfControl === "controllable_by_this_extension")) {
+//       var setting = browser.privacy.websites.hyperlinkAuditingEnabled.set({
+//         value: true
+//       });
+//       setting.then(onSet);
+//     } else {
+//       console.log("Not able to set hyperlinkAuditingEnabled");
+//     }
+//   });
+//
+// });

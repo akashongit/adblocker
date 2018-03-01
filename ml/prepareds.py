@@ -1,3 +1,4 @@
+# staged the dataset and tokenize them
 import pandas as pd
 import nltk
 import re

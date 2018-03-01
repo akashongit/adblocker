@@ -1,1 +1,1 @@
-browserify -t brfs base.js > blocker.js
+browserify -t brfs newbase.js > blocker.js

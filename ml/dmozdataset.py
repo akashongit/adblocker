@@ -1,3 +1,5 @@
+# create a final set from the different dataset
+#  dont use as the dmoz0409_test.csv is better dataset with consolidated context 
 import pandas as pd
 from categories import ds
 import re

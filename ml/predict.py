@@ -1,3 +1,4 @@
+# aggregate the prediction of 10 classifiers and gives mode
 import pickle
 import nltk
 from featuredict import features
@@ -95,6 +96,5 @@ def predictcontext(url):
     # print(context)
     print("The context for the url %s is %s"%(url,ds[context]))
     return ds[context]
-# predictcontext(sys.argv[1])
-# predictcontext(sys.argv[1])
+predictcontext(sys.argv[1])
 # predictcontext(sys.argv[1],sys.argv[2])

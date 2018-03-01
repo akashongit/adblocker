@@ -1,3 +1,4 @@
+# prepare featuredict.py from dataset/unmodified/dmoz0409_test.csv
 import pandas as pd
 import nltk
 import re
