@@ -132,6 +132,7 @@ browser.menus.onClicked.addListener((info, tab) => {
       let data = browser.storage.local.get("blocking");
       let blocked = data.then(function(result) {
    console.log(!result["blocking"]);
+   var msending = browser.tabs.sendMessage( tab.id, {ublock : checkedState} );
    return result["blocking"];
  });
 
@@ -149,14 +150,14 @@ browser.menus.onClicked.addListener((info, tab) => {
  // });
       console.log("menu status -> " + checkedState);
       browser.storage.local.set({'blocking':checkedState});
-      browser.tabs.reload(tab.id);
+      // browser.tabs.reload(tab.id);
       break;
     // case "remove-me":
     //   var removing = browser.menus.remove(info.menuItemId);
     //   removing.then(onRemoved, onError);
     //   break;
 
-    case "remove":
+case "remove":
 
       console.log("Blocked!!");
 
@@ -196,11 +197,15 @@ break;
 //     console.log("entered");
 //     event.target.style.color = "purple";});
 // }
-// var registering = browser.contentScripts.register(
-//    [
-//   {
-//     "matches": ["<all_urls>"],
-//     "css" : ["element.css"],
-//   }
-//   ]
-// )
+
+// var registered = null;
+// async function register() {
+// registered = await browser.contentScripts.register({
+// // registered = browser.contentScripts.register({
+//   matches:  ["<all_urls>"],
+//   css: ["element.css"]
+// });
+// console.log("CSS element.css loaded");
+// }
+//
+// register();

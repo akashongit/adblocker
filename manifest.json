@@ -4,7 +4,8 @@
   "description": "adblcker",
   "version": "1.0",
   "web_accessible_resources": [
-    "images/blocked.svg"
+    "images/blocked.svg",
+    "userfilter.txt"
   ],
   "background": {
     "scripts": [
@@ -24,12 +25,12 @@
     "storage",
     "unlimitedStorage",
     "notifications",
-    "menus"
+    "menus",
+    "activeTab"
   ],
   "content_scripts": [
   {
     "matches": ["<all_urls>"],
-    "css" : ["element.css"],
     "js": ["removeele.js"]
   }
 ],
