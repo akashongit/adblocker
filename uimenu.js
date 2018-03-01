@@ -9,6 +9,11 @@ We'll just log success/failure here.
 // return result["blocking"];
 // });
 
+//content scripts
+
+
+
+
 function onCreated() {
   if (browser.runtime.lastError) {
     console.log(`Error: ${browser.runtime.lastError}`);
@@ -150,7 +155,7 @@ browser.menus.onClicked.addListener((info, tab) => {
     //   var removing = browser.menus.remove(info.menuItemId);
     //   removing.then(onRemoved, onError);
     //   break;
-    
+
     case "remove":
 
       console.log("Blocked!!");
@@ -191,3 +196,11 @@ break;
 //     console.log("entered");
 //     event.target.style.color = "purple";});
 // }
+// var registering = browser.contentScripts.register(
+//    [
+//   {
+//     "matches": ["<all_urls>"],
+//     "css" : ["element.css"],
+//   }
+//   ]
+// )

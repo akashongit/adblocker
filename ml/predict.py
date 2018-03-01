@@ -96,5 +96,5 @@ def predictcontext(url):
     print("The context for the url %s is %s"%(url,ds[context]))
     return ds[context]
 # predictcontext(sys.argv[1])
-predictcontext(sys.argv[1])
+# predictcontext(sys.argv[1])
 # predictcontext(sys.argv[1],sys.argv[2])

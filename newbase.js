@@ -11,6 +11,7 @@ browser.storage.local.set(newfilter);
 browser.storage.local.set(blocking);
 browser.storage.local.set(changed);
 let ABPFilterParser = require('abp-filter-parser');
+var IDBFiles = require('idb-file-storage')
 var fs = require('fs');
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
@@ -134,11 +135,17 @@ function reboot(message)
     // browser.storage.local.set({'changed':false});
     console.log(" Filter change analysed!!!");
     console.log("new filter "+message.filter+" accepted ");
+    userFilter
+    console.log(userFilter+"||"+message.filter+"^\n");
+    ABPFilterParser.parse(userFilter, parseduserFilterData);
+    // browser.tabs.reload(tab.id);
+
+
+
     //appending to file
-//     fs.appendFile(__dirname + "/userfilter.txt", message.filter , function (err) {
-//       if (err) throw err;
-//       console.log('Saved!');
-// });
+    // let ufilter = fs.readFileSync(__dirname + "/userfilter.txt", "utf-8");
+    // let ufilter = fs.open('mynewfile2.txt', 'w');
+//     fs.appendFile(__dirname + "/userfilter.txt", message.filter);
 //     store.changefilter = false;
 //     var newfil ="";
 //     ABPFilterParser.parse(store.newfilter, newfil);
@@ -151,28 +158,32 @@ function reboot(message)
 
 }
 
-//listener for context
-// browser.webRequest.onBeforeRequest.addListener(
-//   findcontext,
-//   {urls: ["<all_urls>"], type: "main_frame"},
-// );
+// listener for context
+browser.webRequest.onBeforeRequest.addListener(
+  findcontext,
+  {urls: ["<all_urls>"], types: ["main_frame"]}
+);
 
-// function findcontext (requestDetails){
-// svm_call = XMLHttpRequest();
-// url = "http://127.0.0.1/findtext"
-// svm_call.onreadystatechange = function() {
-//   if (svm_call.readyState === 4) {
-//     console.log(svm_call.response); //Outputs a DOMString by default
-//   }
-// }
-//var formData = new FormData();
+function findcontext (requestDetails){
+svm_call = new XMLHttpRequest();
+url = "http://127.0.0.1:8080/findcontext?&url="+requestDetails.url;
+console.log("Ajax call to "+url);
+svm_call.onreadystatechange = function() {
+  if (svm_call.readyState === 4) {
+    let context = JSON.parse(svm_call.response)
+    console.log("respone from server "+svm_call.response); //Outputs a DOMString by default
+    console.log("the context is "+context['context']);
+  }
+}
+// var formData = new FormData();
 // formData.append('url', requestDetails.url);
-// svm_call.open('POST', url, false);
-// svm_call.send({"url":requestDetails.url});
+svm_call.open('GET', url, true);
 
-//  store = browser.storage.local.set({store});
-//  // store.context = ml()
-// }
+svm_call.send({"url":requestDetails.url});
+
+ // store = browser.storage.local.set({store});
+ // store.context = ml()
+}
 
 // document.addEventListener("DOMContentLoaded", function(event) {
 //    console.log("DOM fully loaded and parsed");

@@ -27,6 +27,18 @@ function printMousePos(e) {
 }
 }
 
+// var cssId = 'myCss';  // you could encode the css path itself to generate id..
+// if (!document.getElementById(cssId))
+// {
+//     var head  = document.getElementsByTagName('head')[0];
+//     var link  = document.createElement('link');
+//     link.id   = cssId;
+//     link.rel  = 'stylesheet';
+//     link.type = 'text/css';
+//     link.href = 'http://website.com/css/stylesheet.css';
+//     link.media = 'all';
+//     head.appendChild(link);
+// }
 
 // document.addEventListener("hover", function(e){border = e.target.style.border-style; e.target.style.border-style ="dotted";});
 // document.addEventListener("hover", function(e){e.target.style.border-style = border;});

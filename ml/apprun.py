@@ -8,10 +8,10 @@ app = Flask(__name__)
 
 @app.route("/findcontext",methods=['POST', 'GET'])
 def findcontext():
-	if request.method=='POST':
-	# if request.method=='GET':
-		# url = str(request.args.get('url'))
-		url = request.form['url']
+	# if request.method=='POST':
+	if request.method=='GET':
+		url = str(request.args.get('url'))
+		# url = request.form['url']
 		response = dict()
 		# response['context'] = 'water'
 		context = predictcontext(url)
