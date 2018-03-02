@@ -4,8 +4,11 @@
 //   changefilter : false,
 //   context : ""
 // };
+let matchContextList = false;
+console.log("_____Adblocker Initiated_____");
 unblocked = false
-
+// import * as webContext from 'context.js';
+// from context import context;
 let newfilter = {"newfilter" : ""};
 let changed = {"changed":false}
 let blocking = {"blocking":false};
@@ -18,20 +21,58 @@ var fs = require('fs');
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
 let userFilter = "";
-let context = {
-media:"",
-entertainment:"",
-games:"",
-shopping:"",
-education:"",
-adult:"",
-economy:"",
-health:"",
-kids:"",
-sports:""
+let paresdContext = {
+// "Adult":null,
+// "Business":null,
+// "Computer":null,
+// "Education":null,
+// "Entertainment":null,
+// "Games":null,
+// "Health":null,
+// "Home":null,
+// "Kids":null,
+// "Media":null,
+// "Shopping":null,
+// "Sports":null
+};
+contextList={
+  0:"Adult",
+  1:"Business",
+  2:"Computer",
+  3:"Education",
+  4:"Entertainment",
+  5:"Games",
+  6:"Health",
+  7:"Home",
+  8:"Kids",
+  9:"Media",
+  10:"Shopping",
+  11:"Sports"
 };
 
+let contex ={};
+
+contex["Adult"] = fs.readFileSync(__dirname + "/context/Adult.txt", "utf-8");
+contex["Business"] = fs.readFileSync(__dirname + "/context/Business.txt", "utf-8");
+contex["Computer"] = fs.readFileSync(__dirname + "/context/Computer.txt", "utf-8");
+contex["Education"] = fs.readFileSync(__dirname + "/context/Education.txt", "utf-8");
+contex["Entertainment"] = fs.readFileSync(__dirname + "/context/Entertainment.txt", "utf-8");
+contex["Games"] = fs.readFileSync(__dirname + "/context/Games.txt", "utf-8");
+contex["Health"] = fs.readFileSync(__dirname + "/context/Health.txt", "utf-8");
+contex["Home"] = fs.readFileSync(__dirname + "/context/Home.txt", "utf-8");
+contex["Kids"] = fs.readFileSync(__dirname + "/context/Kids.txt", "utf-8");
+contex["Media"] = fs.readFileSync(__dirname + "/context/Media.txt", "utf-8");
+contex["Shopping"] = fs.readFileSync(__dirname + "/context/Shopping.txt", "utf-8");
+contex["Sports"] = fs.readFileSync(__dirname + "/context/Sports.txt", "utf-8");
 var conIterator = 0;
+let parsedContextD={};
+for(;conIterator<12;conIterator++)
+{
+  console.log("parsing context "+conIterator);
+  ABPFilterParser.parse(contex[contextList[conIterator]], parsedContextD);
+  paresdContext[[contextList[conIterator]]] = parsedContextD;
+}
+
 let parsedContextData = [];
 var temp;
 
@@ -48,7 +89,9 @@ let parseduserFilterData = {};
 
 
 ABPFilterParser.parse(easyListTxt, parsedFilterData);
+console.log("Easylist parsed");
 ABPFilterParser.parse(userFilter, parseduserFilterData);
+console.log("User Filter parsed");
 // console.log(parsedFilterData);
 // let urlToCheck = 'http://static.tumblr.com/dhqhfum/WgAn39721/cfh_header_banner_v2.jpg';
 
@@ -89,7 +132,7 @@ matchuserFilter = ABPFilterParser.matches(parseduserFilterData, requestDetails.u
     });
     console.log("EasyList :"+matchEasyList+"\nUser Filter :"+matchuserFilter);
 // if (matchEasyList)
-if (matchEasyList || matchuserFilter)
+if (matchEasyList || matchuserFilter || matchContextList)
     {
   console.log("Loading: " + requestDetails.url);
   console.log('URL/Resource blocked!');
@@ -186,6 +229,11 @@ svm_call.onreadystatechange = function() {
     let context = JSON.parse(svm_call.response)
     console.log("respone from server "+svm_call.response); //Outputs a DOMString by default
     console.log("the context is "+context['context']);
+    matchContextList = ABPFilterParser.matches(paresdContext[context['context']], requestDetails.url, {
+          domain: currentPageDomain,
+          elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
+        });
+
   }
 }
 // var formData = new FormData();

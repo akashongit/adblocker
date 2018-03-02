@@ -5,7 +5,6 @@ import pandas as pd
 import nltk
 import pickle
 from categories import ds
-# import sys
 from random import randint
 from sklearn.svm import LinearSVC
 import sys
@@ -55,6 +54,7 @@ for content in urls[:20000]:
 training_set = fullset
 testing_set = fullset[100:]
 # print(testing_set)
+print(sys.getsizeof(training_set)/1000000000)
 print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")

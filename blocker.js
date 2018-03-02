@@ -5,8 +5,11 @@
 //   changefilter : false,
 //   context : ""
 // };
+let matchContextList = false;
+console.log("_____Adblocker Initiated_____");
 unblocked = false
-
+// import * as webContext from 'context.js';
+// from context import context;
 let newfilter = {"newfilter" : ""};
 let changed = {"changed":false}
 let blocking = {"blocking":false};
@@ -19,20 +22,58 @@ var IDBFiles = require('idb-file-storage')
 var unique = require('uniq');
 var bloomf = require('bloom-filter-js');
 let userFilter = "";
-let context = {
-media:"",
-entertainment:"",
-games:"",
-shopping:"",
-education:"",
-adult:"",
-economy:"",
-health:"",
-kids:"",
-sports:""
+let paresdContext = {
+// "Adult":null,
+// "Business":null,
+// "Computer":null,
+// "Education":null,
+// "Entertainment":null,
+// "Games":null,
+// "Health":null,
+// "Home":null,
+// "Kids":null,
+// "Media":null,
+// "Shopping":null,
+// "Sports":null
+};
+contextList={
+  0:"Adult",
+  1:"Business",
+  2:"Computer",
+  3:"Education",
+  4:"Entertainment",
+  5:"Games",
+  6:"Health",
+  7:"Home",
+  8:"Kids",
+  9:"Media",
+  10:"Shopping",
+  11:"Sports"
 };
 
+let contex ={};
+
+contex["Adult"] = "||/facebooksex.^\n";
+contex["Business"] = "||-google-ad.^\n||-google-ads-^\n||-google-ads/^\n||-google-adsense.^\n||-google2-ad-^\n||-NewStockAd-^\n||/carouselads.^\n||/carsadtaggenerator.js^\n||/cashad.^\n||/cashad2.^\n||/category-sponsorship/^\n||/images/sponsored/^\n";
+contex["Computer"] = "";
+contex["Education"] = "||/googleadhp.^\n||/googleadhpbot.^\n||/googleadhtml/^\n||/googleadiframe_^\n||/googleadright.^\n||/googleads-^\n||/googleads.^\n||/googleads/^\n||/googleads1.^\n||/googleads2.^\n||/googleads3widetext.^\n||/googleads_^\n||/googleadsafc_^\n||/googleadsafs_^\n||/googleAdScripts.^\n||/googleadsense.^\n||/googleAdTaggingSubSec.^\n||/googleadunit^\n||/googleafc.^\n||/googleafs.^\n||/googleafvadrenderer.^\n||/googlecontextualads.^\n||/GoogleDFP.^\n||/googleheadad.^\n||/googleleader.^\n||/googleleads.^\n||/googlempu.^\n||/google-ad-^\n||/google-ad?^\n||/Google-Ads-^\n||/google-ads.^\n||/google-ads/*^\n||/google-adsense-^\n||/google-adsense.^\n||/google-adverts-^\n||/google-adwords^\n||/google-afc-^\n||/google-afc.^\n||/google/ad?^\n||/google/adv.^\n||/google160.^\n||/google728.^\n||/google_ad.^\n||/google_ad_^\n||/google_ads.^\n||/google_ads/*^\n||/google_ads_^\n||/google_adv/*^\n||/google_afc.^\n||/google_afc_^\n||/google_afs.^\n||/google_afs_widget/^\n||/google_caf.js^\n||/google_lander2.js^\n||/google_radlinks_^\n||/googlead-^\n||/googlead.^\n||/googlead1.^\n||/googlead160.^\n||/GoogleAd300.^\n||/googlead336x280.^\n||/googlead_^\n||/googleadarticle.^\n||/GoogleAdBg.^\n||/googleadcode.^\n||/googleaddfooter.^\n||/googleaddisplayframe.^\n||/campaign/advertiser_^\n||/campus/ads/^\n";
+contex["Entertainment"] = "||-gallery_ad/^\n||/facebookaff/^\n||/facebookaff2/^\n||/facebooksex.^\n";
+contex["Games"] = "||/gam.html^\n||/gam_ad.^\n||/gam_ad_^\n||/gam_ads.^\n||/gamads/^\n||/game-ads.^\n||/gamead/^\n||/gameadsync.^\n||/gamersad.^\n||/games_ad_^\n||-games/ads/^\n";
+contex["Health"] = "";
+contex["Home"] = "||-feed-ads.^\n||-fleshlight2.^\n";
+contex["Kids"] = "";
+contex["Media"] = "||-NewAd.^\n||-news-ad-^\n||-newsletter-ad^\n";
+contex["Shopping"] = "||-featured-ads.^\n||-featured-ads/^\n||.tv/adl.^\n||.tv/ads.^\n||.tv/ads/^\n||/buyad.^\n||/buyclicks/*^\n||/buyer/dyad/*^\n||/buysellads-^\n||/buysellads.^\n||/deliver.jphp?^\n||/deliver.nmi?^\n||/deliver/wr^\n||/deliverad/^\n||/deliverads.^\n||/deliverjs.nmi^\n||/deliversd/^\n||/deliversds.^\n||/delivery.ads.^\n||/delivery.php?pool_id=^\n||/delivery.php?rnd=^\n||/delivery/*?advplaces=^\n||/delivery/afr.^\n||/delivery/ag.^\n||/delivery/al.php^\n||/delivery/apu.php^\n||/delivery/avw.^\n||/delivery/fc.^\n||/delivery/fl.^\n||/delivery/hb.php^\n||/delivery/spc.^\n||/delivery/vbafr.php^\n||/delivery_ads/^\n||/ebay_ads/^\n||/ebayad.^\n||/image/sponsors/^\n||/images/gads_^\n||/images/sponsored.^\n";
+contex["Sports"] = "";
 var conIterator = 0;
+let parsedContextD={};
+for(;conIterator<12;conIterator++)
+{
+  console.log("parsing context "+conIterator);
+  ABPFilterParser.parse(contex[contextList[conIterator]], parsedContextD);
+  paresdContext[[contextList[conIterator]]] = parsedContextD;
+}
+
 let parsedContextData = [];
 var temp;
 
@@ -49,7 +90,9 @@ let parseduserFilterData = {};
 
 
 ABPFilterParser.parse(easyListTxt, parsedFilterData);
+console.log("Easylist parsed");
 ABPFilterParser.parse(userFilter, parseduserFilterData);
+console.log("User Filter parsed");
 // console.log(parsedFilterData);
 // let urlToCheck = 'http://static.tumblr.com/dhqhfum/WgAn39721/cfh_header_banner_v2.jpg';
 
@@ -90,7 +133,7 @@ matchuserFilter = ABPFilterParser.matches(parseduserFilterData, requestDetails.u
     });
     console.log("EasyList :"+matchEasyList+"\nUser Filter :"+matchuserFilter);
 // if (matchEasyList)
-if (matchEasyList || matchuserFilter)
+if (matchEasyList || matchuserFilter || matchContextList)
     {
   console.log("Loading: " + requestDetails.url);
   console.log('URL/Resource blocked!');
@@ -187,6 +230,11 @@ svm_call.onreadystatechange = function() {
     let context = JSON.parse(svm_call.response)
     console.log("respone from server "+svm_call.response); //Outputs a DOMString by default
     console.log("the context is "+context['context']);
+    matchContextList = ABPFilterParser.matches(paresdContext[context['context']], requestDetails.url, {
+          domain: currentPageDomain,
+          elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
+        });
+
   }
 }
 // var formData = new FormData();
