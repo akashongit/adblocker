@@ -6,6 +6,8 @@ lis = []
 a = []
 
 df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
+# df = pd.read_csv("./dataset/unmodified/dmoz0409.csv")
+
 # bpath ='./features.txt'
 
 features = set()
