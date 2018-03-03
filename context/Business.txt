@@ -1,0 +1,12 @@
+||-google-ad.^
+||-google-ads-^
+||-google-ads/^
+||-google-adsense.^
+||-google2-ad-^
+||-NewStockAd-^
+||/carouselads.^
+||/carsadtaggenerator.js^
+||/cashad.^
+||/cashad2.^
+||/category-sponsorship/^
+||/images/sponsored/^

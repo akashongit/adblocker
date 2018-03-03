@@ -1,0 +1,11 @@
+||/gam.html^
+||/gam_ad.^
+||/gam_ad_^
+||/gam_ads.^
+||/gamads/^
+||/game-ads.^
+||/gamead/^
+||/gameadsync.^
+||/gamersad.^
+||/games_ad_^
+||-games/ads/^
