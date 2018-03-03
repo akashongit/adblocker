@@ -92,7 +92,7 @@ def predictcontext(url):
         # return str(ds[result])
     data = Counter(final_context)
     print("Output")
-    context = data.most_common(1)[0][0]
+    context = int(data.most_common(1)[0][0])
     # print(context)
     print("The context for the url %s is %s"%(url,ds[context]))
     return ds[context]
