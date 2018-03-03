@@ -1,5 +1,5 @@
 #  train svm with 20k dataset
-from svgdcfeaturedict import features
+from sgdcfeaturedict import features
 # import numpy as np
 import pandas as pd
 import nltk
