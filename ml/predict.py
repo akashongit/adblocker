@@ -12,7 +12,7 @@ from collections import Counter
 final_context = []
 
 # def predict(url,category):
-def predictcontext(url):
+def predictcontext(url,num=9):
     # classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/svm%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/naivebayes.pickle", "rb")
@@ -79,7 +79,7 @@ def predictcontext(url):
         testdata.append((url_feature))
         # testdat;;a = [(url_feature,None)]
         # print(testdata)
-        for val in range(11):
+        for val in range(num):
             classifier_f = open("./classifiers/svm%s.pickle"%val, "rb")
             # print("svm%s classifier loaded"%val)
             classifier = pickle.load(classifier_f,encoding='latin1')
@@ -87,7 +87,7 @@ def predictcontext(url):
             result = classifier.classify(testdata[0])
             final_context.append(result)
             # print(result)
-            print("Context : ",ds[result])
+            print("Context : ",ds[int(result)])
             classifier_f.close()
         # return str(ds[result])
     data = Counter(final_context)
