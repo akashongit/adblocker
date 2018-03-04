@@ -12,7 +12,7 @@ from collections import Counter
 final_context = []
 
 # def predict(url,category):
-def predictcontext(url,num=9):
+def predictcontext(url,num):
     # classifier_f = open("./classifiers/naivebayes%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/svm%s.pickle"%category, "rb")
     # classifier_f = open("./classifiers/naivebayes.pickle", "rb")
@@ -45,7 +45,7 @@ def predictcontext(url,num=9):
         count = count+1
         url_feature = features.copy()
         # print("\ncontext %s"%count)
-        for val in range(n):
+        for val in range(3):
             if( gram[val] in url_feature ):
                 url_feature[gram[val]]=True
             else:
@@ -96,5 +96,5 @@ def predictcontext(url,num=9):
     # print(context)
     print("The context for the url %s is %s"%(url,ds[context]))
     return ds[context]
-predictcontext(sys.argv[1])
+predictcontext(sys.argv[1],7)
 # predictcontext(sys.argv[1],sys.argv[2])
