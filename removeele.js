@@ -24,7 +24,7 @@ function printMousePos(e) {
   if(blocked == false)
   {
     item = e.target;
-    item.style.display = "none";
+    item.innerHTML = "This Ad has been blocked!!";
       blocked = true;
     // console.log(item);
     alert("Ads successfully blocked!!");

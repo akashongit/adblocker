@@ -19,10 +19,10 @@ classif = nltk.classify.scikitlearn.SklearnClassifier(LinearSVC())
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
 # category = ds[int(sys.argv[1])-1]
-# bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
-bpath ='./dataset/dmoz0409_finaltest.csv'
-# print(bpath)
-csvfile = pd.read_csv(bpath)
+# src ='./dataset/dmoz0409_%s_finaltest.csv'%category
+src ='./dataset/dmoz0409_finaltest.csv'
+# print(src)
+csvfile = pd.read_csv(src)
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
 
@@ -54,7 +54,7 @@ for content in urls:
 training_set = fullset
 testing_set = fullset[100:]
 # print(testing_set)
-print(sys.getsizeof(training_set)/1000000000)
+# print(sys.getsizeof(training_set)/1000000000)
 print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")
