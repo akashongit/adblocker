@@ -8,7 +8,7 @@ from categories import ds
 from collections import Counter
 
 final_context = []
-
+# dummy=""
 # def predict(url,category):
 def predictcontext(url):
 
@@ -50,12 +50,14 @@ def predictcontext(url):
         result = classifier.classify(testdata[0])
         final_context.append(result)
         print("Context : ",ds[int(result)])
+        dummy = ds[int(result)]
         classifier_f.close()
     data = Counter(final_context)
     print("Output")
-    context = int(data.most_common(1)[0][0])
-    print("The context for the url %s is %s"%(url,ds[context]))
-    return ds[context]
+    # context = int(data.most_common(1)[0][0])
+    # context = int(ds[int(result)])
+    print("The context for the url %s is %s"%(url,dummy))
+    return dummy
 
 # if(sys.argv[1]):
     # predictcontext(sys.argv[1])
