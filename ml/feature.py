@@ -1,11 +1,17 @@
+# prepare featuredict.py from dataset/unmodified/dmoz0409_test.csv
 import pandas as pd
 import nltk
 import re
+import sys
 lis = []
 a = []
+src = "./dataset/unmodified/dmoz0409_test.csv"
+desc = "./featuredict.py"
+# df = pd.read_csv("./dataset/unmodified/dmoz0409.csv")
 
-df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
 # bpath ='./features.txt'
+
+df = pd.read_csv(src)
 
 features = set()
 # features.add('_paddingbit1')
@@ -55,7 +61,7 @@ featureset = list(features)
 # print(featureset)
 # print("hotstar" in featureset)
 print("No of words : ",len(featureset))
-fd = open("./featuredict.py",'w', encoding="utf-8")
+fd = open(desc,'w', encoding="utf-8")
 fd.write("features = { \"_paddingbit1\":False,\"_paddingbit2\":False,\"_paddingbit3\":False,\"_paddingbit4\":False,")
 for line in featureset:
     # if("''" in list(line)):

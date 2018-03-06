@@ -1,10 +1,10 @@
+# depreciated svmtrainer
 from featuredict import features
 # import numpy as np
 import pandas as pd
 import nltk
 import pickle
 from categories import ds
-# import sys
 from random import randint
 from sklearn.svm import LinearSVC
 import sys
@@ -19,16 +19,16 @@ classif = nltk.classify.scikitlearn.SklearnClassifier(LinearSVC())
 
 padbits = ["_paddingbit1","_paddingbit2","_paddingbit3","_paddingbit4"]
 # category = ds[int(sys.argv[1])-1]
-# bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
-bpath ='./dataset/dmoz0409_finaltest.csv'
-# print(bpath)
-csvfile = pd.read_csv(bpath)
+# src ='./dataset/dmoz0409_%s_finaltest.csv'%category
+src ='./dataset/dmoz0409_finaltest.csv'
+# print(src)
+csvfile = pd.read_csv(src)
 # # str_url = (t.iloc[:,1:]
 urls = csvfile.values.tolist()
 
 fullset =[]
 
-for content in urls[:10000]:
+for content in urls:
     url_class = features.copy()
     try:
         url_class[content[0]]=True
@@ -54,6 +54,7 @@ for content in urls[:10000]:
 training_set = fullset
 testing_set = fullset[100:]
 # print(testing_set)
+# print(sys.getsizeof(training_set)/1000000000)
 print("Training SVM...\n")
 classifier = classif.train(training_set)
 print("Successfully trained!!!")

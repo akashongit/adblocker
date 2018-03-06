@@ -9,6 +9,11 @@ We'll just log success/failure here.
 // return result["blocking"];
 // });
 
+//content scripts
+
+
+
+
 function onCreated() {
   if (browser.runtime.lastError) {
     console.log(`Error: ${browser.runtime.lastError}`);
@@ -85,14 +90,14 @@ Set a colored border on the document in the given tab.
 Note that this only work on normal web pages, not special pages
 like about:debugging.
 */
-var blue = 'document.body.style.border = "5px solid blue"';
-var green = 'document.body.style.border = "5px solid green"';
+// var blue = 'document.body.style.border = "5px solid blue"';
+// var green = 'document.body.style.border = "5px solid green"';
 
-function borderify(tabId, color) {
-  browser.tabs.executeScript(tabId, {
-    code: color
-  });
-}
+// function borderify(tabId, color) {
+//   browser.tabs.executeScript(tabId, {
+//     code: color
+//   });
+// }
 
 /*
 Toggle checkedState, and update the menu item's title
@@ -127,6 +132,7 @@ browser.menus.onClicked.addListener((info, tab) => {
       let data = browser.storage.local.get("blocking");
       let blocked = data.then(function(result) {
    console.log(!result["blocking"]);
+   var msending = browser.tabs.sendMessage( tab.id, {ublock : checkedState} );
    return result["blocking"];
  });
 
@@ -144,45 +150,37 @@ browser.menus.onClicked.addListener((info, tab) => {
  // });
       console.log("menu status -> " + checkedState);
       browser.storage.local.set({'blocking':checkedState});
-      browser.tabs.reload(tab.id);
+      // browser.tabs.reload(tab.id);
       break;
     // case "remove-me":
     //   var removing = browser.menus.remove(info.menuItemId);
     //   removing.then(onRemoved, onError);
     //   break;
-    case "remove":
-      // borderify(tab.id, blue);
+
+case "remove":
+
       console.log("Blocked!!");
-      // var item = info.mediaType;
-      // var curtab = tabs.query({active: true});
+
       console.log(tab.id);
-      // var stat = browser.tabs.connect(
-      // tab.id,
-      // {name: "remove ads"}
-
-    // );
-      // stat.postMessage({b: true});
-    // browser.addEventListener('click', function() {
+//send message to context script
+    console.log("Send message to removeele");
     var sending = browser.tabs.sendMessage( tab.id, {msg : true} );
-    // console.log("working");
-    // onClick's logic below:
-    // document.addEventListener('click', printMousePos);
-// });
 
-
-      // printMousePos();
-      // cursorX = 2;
-      // cursorY = 3;
-
-      // console.log("x :" + cursorX + "  y :" + cursorY );
-      // item = document.caretPositionFromPoint(cursorX ,cursorY );
-      // item
       // .style.color = "RED";
       break;
 
 case "addfilter":
-    var sending = browser.tabs.sendMessage( tab.id, {msg : false} );
-    // var newf = browser.tabs.sendMessage( tab.id, {msg : true} );
+var fsending = browser.tabs.sendMessage( tab.id, {msg : false} );
+// var newf = browser.tabs.sendMessage( tab.id, {msg : true} );
+// let fdata = browser.storage.local.get("newfilter");
+// let uFilter = fdata.then(function(result) {
+// console.log(!result["newfilter"]);
+// return result["newfilter"];
+// });
+// // urlFilter = ""
+// browser.storage.local.set({'newfilter':urlFilter,'changed':true});
+// browser.tabs.reload(tab.id);
+
 break;
     // case "open-sidebar":
     //   console.log("Opening my sidebar");
@@ -199,3 +197,15 @@ break;
 //     console.log("entered");
 //     event.target.style.color = "purple";});
 // }
+
+// var registered = null;
+// async function register() {
+// registered = await browser.contentScripts.register({
+// // registered = browser.contentScripts.register({
+//   matches:  ["<all_urls>"],
+//   css: ["element.css"]
+// });
+// console.log("CSS element.css loaded");
+// }
+//
+// register();

@@ -1,9 +1,4 @@
-let dstore = {
-  blocked : true,
-  newfilter : "",
-  changefilter : false,
-  context : ""
-};
+let dstore = {"newfilter" : ""};
 let blocking = {"blocking":false};
 browser.storage.local.set(dstore);
 browser.storage.local.set(blocking);

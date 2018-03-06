@@ -1,8 +1,9 @@
+# staged the dataset and tokenize them
 import pandas as pd
 import nltk
 import re
 from categories import ds
-# import sys
+import sys
 from subprocess import call
 # from collections import Counter
 # lis =()
@@ -10,10 +11,14 @@ lis = []
 a = []
 # arg = int(sys.argv[1])
 # category = ds[arg-1]
-# bpath ='./dataset/dmoz0409_%s_finaltest.csv'%category
+# desc ='./dataset/dmoz0409_%s_finaltest.csv'%category
 # df = pd.read_csv("./dataset/unmodified/dmoz0409_%s_test.csv"%category)
-bpath ='./dataset/dmoz0409_finaltest.csv'
-df = pd.read_csv("./dataset/unmodified/dmoz0409_test.csv")
+desc ='./dataset/dmoz0409_finaltest.csv'
+src = "./dataset/unmodified/dmoz0409_test.csv"
+
+# desc ='./dataset/dmoz0409_finaltest.csv'
+# src = "./dataset/unmodified/dmoz0409_test.csv"
+df = pd.read_csv(src)
 # print (t.ix[:,1:])
 # str_url = (df.iloc[:,1:2])
 # str_class = (df.iloc[:,2:])
@@ -30,7 +35,7 @@ cleaned_urls = []
 clas.insert(0,'0')
 myiter = iter(clas)
 list_urls = urls.split('\n')
-fd = open(bpath, 'w',encoding = "utf-8")
+fd = open(desc, 'w',encoding = "utf-8")
 fd.write("text1,text2,text3,text4,class\n")
 for row in list_urls:
     try:
