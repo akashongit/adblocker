@@ -42,15 +42,15 @@ for content in urls[:20000]:
 
 training_set = fullset
 print("Training SVM")
-# classifier = classif.train(training_set)
+classifier = classif.train(training_set)
 
 training_set[:]=[]
 
 print("Successfully trained!!!")
 print(" saved to ./classifiers/titleSvm.pickle")
-# save_classifier = open("./classifiers/titleSvm.pickle","wb")
-# pickle.dump(classifier, save_classifier)
-# save_classifier.close()
+save_classifier = open("./classifiers/titleSvm.pickle","wb")
+pickle.dump(classifier, save_classifier)
+save_classifier.close()
 
 # msg = " Classifier accuracy percent: "+str(nltk.classify.accuracy(classifier, testing_set)*100)
 # print(msg)

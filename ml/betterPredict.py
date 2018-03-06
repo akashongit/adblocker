@@ -17,7 +17,7 @@ def predictcontext(url):
     featureset = re.sub('[\s!@#$+_.\-/:=&?~\d]',' ', url)
 
     templist = featureset.split(" ")
-    templist = list(filter(None, templist)
+    templist = list(filter(None, templist))
 
     length = len(templist)
     if(length>3):
@@ -57,5 +57,5 @@ def predictcontext(url):
     print("The context for the url %s is %s"%(url,ds[context]))
     return ds[context]
 
-if(sys.argv[1]):
-    predictcontext(sys.argv[1])
+# if(sys.argv[1]):
+    # predictcontext(sys.argv[1])

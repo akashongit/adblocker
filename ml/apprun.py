@@ -4,6 +4,9 @@ import os
 from random import *
 from flask import Flask, request
 from flask import jsonify
+from titleContextPredict import predictTitleContext
+from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 
@@ -15,10 +18,18 @@ def findcontext():
 		# url = request.form['url']
 		response = dict()
 		# response['context'] = 'water'
-		context = predictcontext(url,9)
 		print(url)
-		print(context)
-		response['context'] = context
+		context1 = predictcontext(url)
+		print(context1)
+# title predict
+		# r = requests.get(url)
+		# data = r.text
+		# soup = BeautifulSoup(data,"lxml")
+		# title = soup.title.text
+		# context2 = predictTitleContext(title)
+		# print(context2)
+
+		response['context'] = context1
 		return jsonify(response)
 
 @app.route("/addFilter",methods=['POST', 'GET'])
