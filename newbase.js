@@ -4,6 +4,7 @@
 //   changefilter : false,
 //   context : ""
 // };
+let siteType ="Education";
 let matchContextList = false;
 console.log("_____Adblocker Initiated_____");
 unblocked = false
@@ -102,11 +103,11 @@ console.log("User Filter parsed");
 let currentPageDomain = 'slashdot.org';
 function blockUrl(requestDetails)
 {
-  // if(requestDetails.type.toLowerCase()=="main_frame")
-  // {
+  if(requestDetails.type.toLowerCase()=="main_frame")
+  {
   //   console.log("\ndocument");
-  //
-  // }
+  siteType = findcontext (requestDetails);
+  }
 
   // unblock all ads
 
@@ -132,6 +133,11 @@ matchuserFilter = ABPFilterParser.matches(parseduserFilterData, requestDetails.u
     });
     console.log("EasyList :"+matchEasyList+"\nUser Filter :"+matchuserFilter);
 // if (matchEasyList)
+// matchContextList = ABPFilterParser.matches(paresdContext[siteType], requestDetails.url, {
+//       domain: currentPageDomain,
+//       elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
+//     });
+console.log("the context is matched "+matchContextList);
 if (matchEasyList || matchuserFilter || matchContextList)
     {
   console.log("Loading: " + requestDetails.url);
@@ -194,6 +200,7 @@ function reboot(message)
     console.log("content in user filter "+userFilter);
     // console.log(userFilter+"||"+message.filter+"^\n");
     ABPFilterParser.parse(userFilter, parseduserFilterData);
+    console.log("Parsed!!");
     // browser.tabs.reload(tab.id);
 
 
@@ -215,10 +222,10 @@ function reboot(message)
 }
 
 // listener for context
-browser.webRequest.onBeforeRequest.addListener(
-  findcontext,
-  {urls: ["<all_urls>"], types: ["main_frame"]}
-);
+// browser.webRequest.onBeforeRequest.addListener(
+  // findcontext,
+  // {urls: ["<all_urls>"], types: ["main_frame"]}
+// );
 
 function findcontext (requestDetails){
 svm_call = new XMLHttpRequest();
@@ -229,16 +236,14 @@ svm_call.onreadystatechange = function() {
     let context = JSON.parse(svm_call.response)
     console.log("respone from server "+svm_call.response); //Outputs a DOMString by default
     console.log("the context is "+context['context']);
-    matchContextList = ABPFilterParser.matches(paresdContext[context['context']], requestDetails.url, {
-          domain: currentPageDomain,
-          elementTypeMaskMap: ABPFilterParser.elementTypes.SCRIPT,
-        });
+    // siteType = context['context'];
+    return context['context'];
 
   }
 }
 // var formData = new FormData();
 // formData.append('url', requestDetails.url);
-svm_call.open('GET', url, true);
+svm_call.open('GET', url, false);
 
 svm_call.send({"url":requestDetails.url});
 
